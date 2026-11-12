@@ -1,4 +1,4 @@
-document.querySelector("#pierre".onclick = jouer;
+document.querySelector("#pierre").onclick = jouer;
 document.querySelector("#papier").onclick = jouer;
 document.querySelector("#ciseaux").onclick = jouer;
 
@@ -18,17 +18,32 @@ function jouer(event) {
   jeu.dataset.joueur = joueur;
   jeu.dataset.ordinateur = ordinateur;
 
+  afficherChoix("choix-joueur", joueur);
+afficherChoix("choix-ordinateur", ordinateur);
+
   let resultat = "Défaite";
-  let message = document.querySelector("#message");
-  message.textContent = resultat;
-  if (joueur === ordinateur) {
-    resultat = "Égalité";
-  } else if (joueur === "pierre" && ordinateur === "ciseaux") {
-    resultat = "Victoire";
-  }
-  jeu.dataset.resultat = resultat;
+let message = document.querySelector("#message");
+
+if (joueur === ordinateur) {
+  resultat = "Égalité";
+} else if (
+  (joueur === "pierre" && ordinateur === "ciseaux") ||
+  (joueur === "papier" && ordinateur === "pierre") ||
+  (joueur === "ciseaux" && ordinateur === "papier")
+) {
+  resultat = "Victoire";
+}
+
+jeu.dataset.resultat = resultat;
+message.textContent = resultat;
 
   document.querySelector("#choix").hidden = true;
   document.querySelector("#resultat").hidden = false;
   message.focus();
+}
+
+function afficherChoix(id, choix) {
+  let image = document.querySelector("#" + id);
+  image.src = "images/" + choix + ".svg";
+  image.alt = choix;
 }
